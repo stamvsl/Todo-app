@@ -1,86 +1,65 @@
-import express from "express"
+import express from "express";
+import todoModel from "../models/todoModel.js";
+
 const router = express.Router();
-import Task from "../models/todoModel.js"
 
 router.get("/todos", async (req, res) => {
-    try {
-      const todos = await todoModel.find();
-      res.json(todos);
-    } catch (e) {
-      console.log(e);
-    }
-  });
+  try {
+    const todos = await todoModel.find();
+    res.json(todos);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e);
+  }
+});
 
-  router.post("/todo/create", async (req, res) => {
-    const { todo } = req.body;
-    try {
-      const newTodo = await todoModel.create({
-        todo,
-      });
-      res.json(newTodo);
-    } catch (e) {
-      res.status(500).send(e);
-    }
-  });
+router.post("/todos", async (req, res) => {
+  const { todo } = req.body;
+  try {
+    const newTodo = await todoModel.create({
+      todo,
+    });
+    res.json(newTodo);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e);
+  }
+});
 
-  router.put("/todo/update/:id", async (req, res) => {
-    const { update } = req.body;
-    try {
-      const Put = await todoModel.findOneAndUpdate({
-        todo,
-        update,
-      });
-      res.json(Put);
-    } catch (e) {
-      console.log(e);
-    }
-  });
-  
-  router.delete("/todo/delete/:id", async (req, res) => {
-    try {
-      const del = await todoModel.findOneAndDelete();
-      res.json(del);
-    } catch (e) {
-      console.log(e);
-    }
-  });
+router.put("/todos/:id", async (req, res) => {
+  const { id } = req.params;
+  const { todo } = req.body;
+  try {
+    const updatedTodo = await todoModel.findByIdAndUpdate(
+      id,
+      { todo },
+      { new: true }
+    );
+    res.json(updatedTodo);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e);
+  }
+});
 
-
-
-
-
-// router.get('/', (req, res) =>{
-//    Task.find((err, docs)=>{
-//     if(err) console.log(err)
-//     res.json(docs)
-//    })
-// })
+router.delete("/todos/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedTodo = await todoModel.findByIdAndDelete(id);
+    res.json(deletedTodo);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e);
+  }
+});
 
 
-// router.post('/', (req, res) =>{
-//     const task = new Task(req.body)
-//     task.save((err, doc) =>{
-//         if(err) console.log(err)
-//         res.json(doc)
-//     })
-// })
+  // router.get("/", (req, res) => {
+  //   console.log("**/api endpoint was hit**");
+  //   res.send({ msg: "Hello world" });
+  // });
 
-// router.put('/:id', (req, res) =>{
-//     Task.findByIdAndUpdate({
-//         _id : req.params.id
-//     },req.body,{
-//         new : true
-//     },(err,doc) =>{
-//         if(err) console.log(err)
-//         res.json(doc)
-//     })
-// })
 
-// router.delete('/:id', (req, res) =>{
-//     Task.findByIdAndDelete(req.params.id,(err,doc) =>{
-//         if(err) console.log(err)
-//         res.json(doc)
-//     })
-// })
+
 
 export default router
