@@ -3,7 +3,7 @@ import todoModel from "../models/todoModel.js";
 
 const router = express.Router();
 
-router.get("/todos", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const todos = await todoModel.find();
     res.json(todos);
@@ -13,7 +13,7 @@ router.get("/todos", async (req, res) => {
   }
 });
 
-router.post('/todos/create', async (req, res) => {
+router.post('/create', async (req, res) => {
   const { todo } = req.body;
   try {
     const newTodo = await todoModel.create({
