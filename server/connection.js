@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
-main().then(()=>console.log ("database has connected successfully") ).catch(err => console.log(err));
+
 async function main() {
-  await mongoose.connect(`mongodb+srv://stamvsl:mongopass@cluster0.qq6blos.mongodb.net/?retryWrites=true&w=majority`);
+  await mongoose.connect(
+    'mongodb+srv://stamvsl:mongopass@cluster0.qq6blos.mongodb.net/?retryWrites=true&w=majority'
+
+  );
+  console.log("Database has connected successfully");
 }
-export default main()
+
+export default main;

@@ -13,7 +13,7 @@ router.get("/todos", async (req, res) => {
   }
 });
 
-router.post("/todos", async (req, res) => {
+router.post('/todos/create', async (req, res) => {
   const { todo } = req.body;
   try {
     const newTodo = await todoModel.create({
