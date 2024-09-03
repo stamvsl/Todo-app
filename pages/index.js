@@ -79,21 +79,23 @@ const Home = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h1>Todo</h1>
-      <TodoForm
-        addTodo={addTodo}
-        updateTodo={updateTodo}
-        editTodoId={editTodoId}
-        editText={editText}
-      />
-      <TodoList
-        todos={todos}
-        toggleComplete={toggleComplete}
-        deleteTodo={deleteTodo}
-        editTodo={editTodo}
-      />
-    </div>
+    <>
+      <div className={styles.container}>
+        <h1>Todo</h1>
+        <TodoForm
+          addTodo={addTodo}
+          updateTodo={updateTodo}
+          editTodoId={editTodoId}
+          editText={editText}
+        />
+        <TodoList
+          todos={todos}
+          toggleComplete={toggleComplete}
+          deleteTodo={deleteTodo}
+          editTodo={editTodo}
+        />
+      </div>
+    </>
   );
 };
 

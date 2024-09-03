@@ -1,19 +1,34 @@
+html {
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
   min-height: 100vh;
   background-color: #fff3e0;
-  // background: linear-gradient(135deg, #fff8e1, #ffe082, #ffb74d);
   background-repeat: no-repeat;
   background-size: cover;
   color: #5d4037;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  flex-wrap: wrap;
 }
 
 h1 {
   font-size: 2rem;
   margin-bottom: 20px;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff3e0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ff7043;
+  border-radius: 10px;
 }
