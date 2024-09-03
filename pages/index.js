@@ -9,7 +9,6 @@ const Home = () => {
   const [editText, setEditText] = useState("");
 
   useEffect(() => {
-    // Fetch todos from the database or local storage
     async function fetchTodos() {
       const response = await fetch("/api/todos");
       const data = await response.json();
@@ -58,12 +57,25 @@ const Home = () => {
     setEditText(todo.text);
   };
 
-  const updateTodo = (id, newText) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
-    );
-    setEditTodoId(null);
-    setEditText("");
+  const updateTodo = async (id, newText) => {
+    const updatedTodo = todos.find((todo) => todo.id === id);
+    const response = await fetch(`/api/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...updatedTodo, text: newText }),
+    });
+
+    if (response.ok) {
+      setTodos(
+        todos.map((todo) =>
+          todo.id === id ? { ...todo, text: newText } : todo
+        )
+      );
+      setEditTodoId(null);
+      setEditText("");
+    }
   };
 
   return (
@@ -79,7 +91,7 @@ const Home = () => {
         todos={todos}
         toggleComplete={toggleComplete}
         deleteTodo={deleteTodo}
-        editTodo={editTodo} // Ensure this is passed correctly
+        editTodo={editTodo}
       />
     </div>
   );
