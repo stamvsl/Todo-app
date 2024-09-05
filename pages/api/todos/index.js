@@ -7,11 +7,11 @@ export default async function handler(req, res) {
     const todos = await prisma.todo.findMany();
     res.status(200).json(todos);
   } else if (req.method === "POST") {
-    const { text, listId } = req.body;
+    const { text } = req.body;
     const newTodo = await prisma.todo.create({
       data: {
         text,
-        listId,
+        completed: false,
       },
     });
     res.status(201).json(newTodo);
