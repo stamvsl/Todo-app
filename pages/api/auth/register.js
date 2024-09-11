@@ -1,5 +1,3 @@
-// File: /pages/api/auth/register.js
-
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
@@ -7,7 +5,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { email, password } = req.body;
+    const { email, password, name } = req.body;
 
     // Check if the user already exists
     const existingUser = await prisma.user.findUnique({
@@ -26,6 +24,7 @@ export default async function handler(req, res) {
       data: {
         email,
         password: hashedPassword,
+        name, // Include the name here
       },
     });
 

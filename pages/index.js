@@ -163,7 +163,7 @@ const Home = () => {
       <h1>Todo</h1>
       {session ? (
         <>
-          <p>Welcome, {session.user.email}</p>
+          <p>Welcome, {session.user.name}</p>
           <LogoutButton />
         </>
       ) : (

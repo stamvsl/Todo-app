@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -39,7 +39,7 @@ export default NextAuth({
     signIn: "/auth/signin", // Customize the sign-in page URL
   },
   session: {
-    strategy: "jwt", // Make sure this is set if using JWT
+    strategy: "jwt", // Use JWT for session strategy
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -54,4 +54,6 @@ export default NextAuth({
     },
   },
   debug: true, // Enable debug logs for troubleshooting
-});
+};
+
+export default NextAuth(authOptions);

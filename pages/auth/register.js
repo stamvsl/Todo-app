@@ -5,6 +5,7 @@ import styles from "../../styles/components/Register.module.scss"; // Adjust the
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState(""); // New state for name
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const router = useRouter();
@@ -17,7 +18,7 @@ const Register = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, name }), // Include name in the request body
     });
 
     if (response.ok) {
@@ -37,6 +38,14 @@ const Register = () => {
     <div className={styles.container}>
       <h1 className={styles.title}>Register</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
+        <input
+          type="text"
+          className={styles.inputField}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          placeholder="Name" // Placeholder for the name field
+        />
         <input
           type="email"
           className={styles.inputField}
