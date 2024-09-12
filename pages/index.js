@@ -11,20 +11,18 @@ const Home = () => {
   const [todos, setTodos] = useState([]);
   const [editTodoId, setEditTodoId] = useState(null);
   const [editText, setEditText] = useState("");
-  const [loadingTodos, setLoadingTodos] = useState(true); // For handling loading state
-  const [error, setError] = useState(null); // For handling errors
+  const [loadingTodos, setLoadingTodos] = useState(true);
+  const [error, setError] = useState(null);
 
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  // Redirect to sign-in page if not authenticated
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin");
     }
   }, [status, router]);
 
-  // Fetch todos for the authenticated user
   useEffect(() => {
     async function fetchTodos() {
       if (session?.user?.email) {
@@ -44,7 +42,6 @@ const Home = () => {
     fetchTodos();
   }, [session]);
 
-  // Function to get CSRF token
   const getCsrfToken = async () => {
     const res = await fetch("/api/auth/csrf");
     const data = await res.json();
@@ -58,7 +55,7 @@ const Home = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // Ensure cookies are sent
+        credentials: "include",
         body: JSON.stringify(todo),
       });
 
@@ -74,7 +71,6 @@ const Home = () => {
     }
   };
 
-  // Toggle completion status of a todo
   const toggleComplete = async (id) => {
     const todo = todos.find((todo) => todo.id === id);
     const updatedTodo = { ...todo, completed: !todo.completed };
@@ -96,7 +92,6 @@ const Home = () => {
     }
   };
 
-  // Delete a todo
   const deleteTodo = async (id) => {
     try {
       const response = await fetch(`/api/todos/${id}`, {
@@ -111,14 +106,12 @@ const Home = () => {
     }
   };
 
-  // Edit an existing todo
   const editTodo = (id) => {
     const todo = todos.find((todo) => todo.id === id);
     setEditTodoId(id);
     setEditText(todo.text);
   };
 
-  // Update a todo
   const updateTodo = async (id, newText) => {
     const updatedTodo = todos.find((todo) => todo.id === id);
 
@@ -145,7 +138,6 @@ const Home = () => {
     }
   };
 
-  // Display loading, error, or the todo list based on state
   if (status === "loading") {
     return <div>Loading session...</div>;
   }

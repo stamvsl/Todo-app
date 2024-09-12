@@ -7,13 +7,11 @@ async function main() {
 
   const defaultUser = await prisma.user.create({
     data: {
-      email: "defaultuser@example.com", // Use a unique default email
+      email: "defaultuser@example.com",
       name: "Default User",
       password: hashedPassword,
     },
   });
-
-  console.log("Created default user:", defaultUser);
 }
 
 main()

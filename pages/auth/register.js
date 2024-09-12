@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import styles from "../../styles/components/Register.module.scss"; // Adjust the path as needed
+import styles from "../../styles/components/Register.module.scss";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(""); // New state for name
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const router = useRouter();
@@ -18,7 +18,7 @@ const Register = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password, name }), // Include name in the request body
+      body: JSON.stringify({ email, password, name }),
     });
 
     if (response.ok) {
@@ -44,7 +44,7 @@ const Register = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          placeholder="Name" // Placeholder for the name field
+          placeholder="Name"
         />
         <input
           type="email"

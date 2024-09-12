@@ -31,22 +31,21 @@ export const authOptions = {
           throw new Error("Invalid password.");
         }
 
-        return { id: user.id, email: user.email, name: user.name }; // Include name here
+        return { id: user.id, email: user.email, name: user.name };
       },
     }),
   ],
   pages: {
-    signIn: "/auth/signin", // Customize the sign-in page URL
+    signIn: "/auth/signin",
   },
   session: {
-    strategy: "jwt", // Use JWT for session strategy
+    strategy: "jwt",
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        token.name = user.name; // Include name in token
       }
       return token;
     },
@@ -55,12 +54,12 @@ export const authOptions = {
       session.user = {
         id: token.id,
         email: token.email,
-        name: token.name, // Include name in session
+        name: token.name,
       };
       return session;
     },
   },
-  debug: true, // Enable debug logs for troubleshooting
+  debug: true,
 };
 
 export default NextAuth(authOptions);

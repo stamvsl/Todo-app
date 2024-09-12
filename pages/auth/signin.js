@@ -1,8 +1,7 @@
-// File: /pages/auth/signin.js
-
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import styles from "../../styles/components/SignIn.module.scss"; // Adjust the path as needed
+import styles from "../../styles/components/SignIn.module.scss";
 
 const SignIn = () => {
   const [email, setEmail] = useState("guest@user.com");
@@ -14,22 +13,19 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("/api/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
     });
 
-    if (response.ok) {
+    if (result.ok) {
       setSuccess("Signed in successfully!");
       setError("");
-      router.push("/"); // Redirect to the home page or any page after sign-in
+      router.push("/");
     } else {
-      const data = await response.json();
       setSuccess("");
-      setError(data.error || "Something went wrong, please try again.");
+      setError(result.error || "Something went wrong, please try again.");
     }
   };
 
