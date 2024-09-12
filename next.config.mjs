@@ -11,7 +11,7 @@ const nextConfig = {
             value: "http",
           },
         ],
-        destination: "https://your-domain.com/:path*",
+        destination: "https://stams-todo-app.vercel.app/",
         permanent: true,
       },
     ];
