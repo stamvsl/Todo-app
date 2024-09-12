@@ -1,27 +1,35 @@
-import { signIn } from "next-auth/react";
+// File: /pages/auth/signin.js
+
 import { useState } from "react";
 import { useRouter } from "next/router";
-import styles from "../../styles/components/SignIn.module.scss"; // Adjust the path as needed
+import styles from "../../styles/components/Signin.module.scss"; // Adjust the path as needed
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("guest@user.com");
+  const [password, setPassword] = useState("guest1!");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
+    const response = await fetch("/api/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
     });
 
-    if (result?.error) {
-      setError(result.error);
-    } else if (result?.ok) {
-      router.push("/");
+    if (response.ok) {
+      setSuccess("Signed in successfully!");
+      setError("");
+      router.push("/"); // Redirect to the home page or any page after sign-in
+    } else {
+      const data = await response.json();
+      setSuccess("");
+      setError(data.error || "Something went wrong, please try again.");
     }
   };
 
@@ -35,7 +43,7 @@ const SignIn = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          placeholder="email"
+          placeholder="Email"
         />
         <input
           type="password"
@@ -45,20 +53,21 @@ const SignIn = () => {
           required
           placeholder="Password"
         />
-        {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit" className={styles.button}>
           Sign In
         </button>
       </form>
-      <div className={styles.registrationPrompt}>
+      <div className={styles.signUpPrompt}>
         <p>Don&apos;t have an account?</p>
         <button
-          className={styles.registrationButton}
+          className={styles.signUpButton}
           onClick={() => router.push("/auth/register")}
         >
-          Register
+          Sign Up
         </button>
       </div>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {success && <p style={{ color: "green" }}>{success}</p>}
     </div>
   );
 };
