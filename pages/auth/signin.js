@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/router";
-import styles from "../../styles/components/Signin.module.scss"; // Adjust the path as needed
+import styles from "../../styles/components/SignIn.module.scss"; // Adjust the path as needed
 
 const SignIn = () => {
   const [email, setEmail] = useState("guest@user.com");
