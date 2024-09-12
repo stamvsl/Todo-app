@@ -31,7 +31,7 @@ export const authOptions = {
           throw new Error("Invalid password.");
         }
 
-        return { id: user.id, email: user.email };
+        return { id: user.id, email: user.email, name: user.name }; // Include name here
       },
     }),
   ],
@@ -45,11 +45,18 @@ export const authOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.email = user.email;
+        token.name = user.name; // Include name in token
       }
       return token;
     },
     async session({ session, token }) {
       session.id = token.id;
+      session.user = {
+        id: token.id,
+        email: token.email,
+        name: token.name, // Include name in session
+      };
       return session;
     },
   },
